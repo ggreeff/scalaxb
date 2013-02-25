@@ -26,8 +26,6 @@ import scalashim._
 import scalaxb.compiler.{ScalaNames, Config, ReferenceNotFound, Log}
 import scala.collection.mutable
 
-import org.apache.commons.lang3.StringEscapeUtils.escapeJava
-
 trait PackageName {
   def packageName(schema: SchemaDecl, context: XsdContext): Option[String] =
     packageName(schema.targetNamespace, context)
@@ -549,12 +547,12 @@ trait ContextProcessor extends ScalaNames with PackageName {
     else nonspace
   }
 
-  def quote(value: Option[String]): String = value map { v =>
-    "Some(\"" + escapeJava(v) + "\")"
+  def quote(value: Option[String]): String = value map {
+    "Some(\"" + _ + "\")"
   } getOrElse { "None" }
   
   def quote(value: String): String = if (value == null) "null"
-    else "\"" + escapeJava(value) + "\""
+    else "\"\"\"" + value + "\"\"\""
 
   def indent(indent: Int) = "  " * indent
 }
