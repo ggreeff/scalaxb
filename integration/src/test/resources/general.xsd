@@ -62,6 +62,10 @@
     </xs:sequence>
   </xs:complexType>
   
+  <xs:complexType name="EscapingTest">
+    <xs:attribute name="escapedQuote" type="xs:string" default="&quot;"/>
+  </xs:complexType>
+
   <xs:complexType name="SingularComplexTypeTest">
     <xs:sequence>
       <xs:element name="person1" type="gen:Person"/>

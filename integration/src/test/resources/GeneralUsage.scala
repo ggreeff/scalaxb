@@ -31,6 +31,7 @@ object GeneralUsage {
 
   def allTests = {
     testSingularBuiltInType
+    testEscaping
     testSingularSimpleType
     testList
     testSingularComplexType
@@ -133,6 +134,23 @@ JDREVGRw==</base64Binary>
     val document = toXML[SingularBuiltInTypeTest](obj, "foo", defaultScope)
     println(document)
     check(fromXML[SingularBuiltInTypeTest](document))
+  }
+
+  def testEscaping {
+    val subject = <foo xmlns="http://www.example.com/general"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    </foo>
+    
+    val obj = fromXML[EscapingTest](subject)
+    def check(obj: Any) = obj match {
+        case EscapingTest("\"") =>
+        case _ => error("match failed: " + obj.toString)
+      }
+    check(obj)
+    val document = toXML[EscapingTest](obj, "foo", defaultScope)
+    println(document)
+    check(fromXML[EscapingTest](document))
   }
       
   def testSingularSimpleType {
